@@ -1,4 +1,4 @@
-import { updatecompany } from "../../backend/controller/company.controller";
+
 
 const API_URLS={
     presentuser: "http://localhost:5000/user/present/",
