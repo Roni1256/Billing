@@ -38,7 +38,7 @@ const Nav = ({isAuth,setAuth}) => {
 
   return (
     <>
-    <nav className={`w-full  flex items-center justify-between lg:px-32 px-5 py-7  md:flex-row gap-5 bg-white  ${!isAuth?"dark:bg-transparent ":"dark:bg-black/40 hidden"} `}>
+    <nav className={`w-full  flex items-center justify-between lg:px-32 px-5 py-7  md:flex-row gap-5  ${!isAuth?"dark:bg-transparent ":"dark:bg-black/40 hidden"} `}>
         <Link className="text-2xl  font-bold w-full text-left " to={"/"}>
             Billings
         </Link>
