@@ -11,15 +11,15 @@ const Home = () => {
   return (
     <>
 
-   <main className="max-w-7xl mx-auto px-4 py-8 z-30 overflow-hidden relative duration-300 ease-in-out transition-all">
+   <main className="max-w-7xl mx-auto px-4 py-8 z-30 overflow-hidden relative duration-300 ease-in-out transition-all  ">
         <section className="text-center  duration-500 ease-in-out transition-opacity">
             <h2 className="text-2xl font-semibold mb-4 dark:text-white">Simplify Your Billing Process</h2>
             <p className="mb-8 dark:text-gray-300">Manage your invoices and payments efficiently with our easy-to-use platform.</p>
-            <img src={dash} alt="Billing Dashboard" className="mx-auto rounded-lg mb-6 w-1/2 shadow-xl ring-2 ring-slate-600/50 dark:ring-white " />
+            <img src={dash} alt="Billing Dashboard" className="mx-auto rounded-lg mb-6 w-1/2 shadow-xl ring-2 ring-slate-600/50 dark:ring-white transition-opacity  " />
             <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 z-30" onClick={()=>{navigate('/auth')}}>Get Started</button>
         </section>
 
-        <section className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6  duration-700 ease-in-out transition-all">
+        <section className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6  duration-700 ease-in-out transition-opacity">
             <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
                 <img src={bill} alt="Feature 1" className="mb-4" />
                 <h3 className="text-lg font-bold dark:text-white">Easy Invoicing</h3>
@@ -37,7 +37,7 @@ const Home = () => {
             </div>
         </section>
 
-        <section className="mt-16 bg-gray-50 dark:bg-gray-800 p-8 rounded-lg  duration-1000 ease-in-out transition-all">
+        <section className="mt-16 bg-gray-50 dark:bg-gray-800 p-8 rounded-lg  duration-1000 ease-in-out transition-opacity">
             <h2 className="text-2xl font-semibold mb-6 text-center dark:text-white">Why Choose Us?</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="flex items-start space-x-4">
@@ -65,7 +65,7 @@ const Home = () => {
             </div>
         </section>
 
-        <section className="mt-16 text-center  duration-300 ease-in-out transition-all">
+        <section className="mt-16 text-center  duration-300 ease-in-out transition-opacity">
             <h2 className="text-2xl font-semibold mb-6 dark:text-white">Ready to Get Started?</h2>
             <p className="mb-8 text-gray-600 dark:text-gray-300">Join Us today and simplify your billing process.</p>
             <div className="flex justify-center space-x-4">

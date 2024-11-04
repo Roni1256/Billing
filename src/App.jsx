@@ -90,7 +90,7 @@ const App = () => {
 
 
       </Routes>
-      <footer className=" text-sm   text-center  font-sans dark:text-white bg-transparent">
+      <footer className=" text-sm   text-center  font-sans dark:text-white bg-transparent py-3">
               <p>Created by <b>Roniwilliams</b></p>
       </footer>
       
