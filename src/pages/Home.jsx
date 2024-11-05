@@ -4,7 +4,6 @@ import bill from '../images/bill.png'
 import dash from '../images/dash.png'
 import customer from '../images/customer.png'
 import stock from '../images/stock.png'
-import company from '../images/company.png'
 
 const Home = () => {
   const navigate=useNavigate()

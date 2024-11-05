@@ -6,6 +6,7 @@ import API_URLS from "../constants";
 import axios from "axios";
 import { useEffect } from "react";
 import Loader from "../components/General Components/Loader";
+import StockMonitor from "../components/Stock/StockMonitor";
 
 const Stocks = ({ data, isLoading, updates }) => {
   const [resData, setResData] = useState({
@@ -184,6 +185,9 @@ const Stocks = ({ data, isLoading, updates }) => {
           Manage your <span className="text-purple-500 text-3xl ">Stocks</span>{" "}
           here!
         </h1>
+        <div className="my-5 flex items-center justify-center">
+          <StockMonitor data={data}/>
+        </div>
         <div className="flex xl:flex-row flex-col gap-8 w-full overflow-auto">
 
           <div className=" max-w-[500px] min-w-[400px] flex justify-center h-fit">

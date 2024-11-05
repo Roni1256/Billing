@@ -27,7 +27,6 @@ const Table = ({
     item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     item.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  console.log(data.length);
   
   return (
     <>
