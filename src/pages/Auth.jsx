@@ -2,27 +2,49 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import API_URLS from "../constants";
-import Form from '../components/General Components/Form'
-const Auth = ({ user, setAuth, isLoading, isAuth }) => {
-    // ------------------------Declaration ----------------：
+import Form from "../components/General Components/Form";
 
-    const [isSignin, setSignin] = useState(false);
-    const linkSignin = {
-      message: "Don't have an account?",
-      color: "text-blue-500",
-      click: () => setSignin(!isSignin),
-    };
-    const linkSignup = {
-      message: "Already have an account?",
-      color: "text-blue-500",
-      click: () => setSignin(!isSignin),
-    };
+const Auth = ({ user, setAuth, isLoading, isAuth }) => {
+  // ------------------------Declaration ----------------：
+
+  const [isSignin, setSignin] = useState(false);
+  const linkSignin = {
+    message: "Don't have an account?",
+    color: "text-blue-500",
+    click: () => setSignin(!isSignin),
+  };
+  const linkSignup = {
+    message: "Already have an account?",
+    color: "text-blue-500",
+    click: () => setSignin(!isSignin),
+  };
 
   const navigate = useNavigate();
   const [signinData, setSigninData] = useState({
     email: "",
     password: "",
   });
+
+  const formMessages = {
+    initial: {
+      message: "",
+      color: "",
+    },
+    add: {
+      message: "Successfully logged in",
+      color: "text-green-500",
+    },
+    emptyField: {
+      message: "Please fill all the fields",
+      color: "text-red-500",
+    },
+    invalid: {
+      message: "Invalid credentials",
+      color: "text-red-500",
+    },
+  };
+  const [formMessage, setFormMessage] = useState(formMessages.initial);
+
   const dataSignin = [
     {
       label: "Email",
@@ -50,7 +72,7 @@ const Auth = ({ user, setAuth, isLoading, isAuth }) => {
     name: "",
     email: "",
     password: "",
-    phone:"",
+    phone: "",
   });
   const dataSignup = [
     {
@@ -74,14 +96,14 @@ const Auth = ({ user, setAuth, isLoading, isAuth }) => {
       },
     },
     {
-      label:"Phone Number",
-      type:"number",
-      name:"phone",
-      value:signupData.phone,
-      change:(e)=>{
+      label: "Phone Number",
+      type: "number",
+      name: "phone",
+      value: signupData.phone,
+      change: (e) => {
         setFormMessage(formMessages.initial);
-        setSignupData({...signupData,phone:e.target.value.trim()})
-      }
+        setSignupData({ ...signupData, phone: e.target.value.trim() });
+      },
     },
     {
       label: "Password",
@@ -92,53 +114,35 @@ const Auth = ({ user, setAuth, isLoading, isAuth }) => {
         setFormMessage(formMessages.initial);
         setSignupData({ ...signupData, password: e.target.value.trim() });
       },
-    }
+    },
   ];
-
-  const formMessages = {
-    initial: {
-      message: "",
-      color: "",
-    },
-    add: {
-      message: "Successfully logged in",
-      color: "text-green-500",
-    },
-    emptyField: {
-      message: "Please fill all the fields",
-      color: "text-red-500",
-    },
-    invalid: {
-      message: "Invalid credentials",
-      color: "text-red-500",
-    },
-  };
-  const [formMessage, setFormMessage] = useState("");
 
   // ------------------------Functions ---------------------------
   const auth = async (data) => {
-    
     try {
-      const res = await axios.post(isSignin ? API_URLS.login : API_URLS.signup, data);
+      const res = await axios.post(
+        isSignin ? API_URLS.login : API_URLS.signup,
+        data
+      );
       if (res.status === 200) {
         localStorage.setItem("token", res.data._id);
         user(res.data);
         setFormMessage(formMessages.add);
-        isSignin?navigate("/dashboard"):navigate("/dashboard/details");
+        isSignin ? navigate("/dashboard") : navigate("/dashboard/details");
         setAuth(true);
       }
       console.log(res.status);
-      
     } catch (err) {
-      setFormMessage({message:err.response.data.message,color:"text-red-500"});      
+      setFormMessage({
+        message: err.response?.data?.message || "An error occurred",
+        color: "text-red-500",
+      });
     }
-
   };
 
   const submition = async (e) => {
     e.preventDefault();
- 
-    
+
     if (
       !isSignin &&
       (!signupData.name || !signupData.email || !signupData.password)
@@ -155,7 +159,6 @@ const Auth = ({ user, setAuth, isLoading, isAuth }) => {
     } else {
       await auth(signupData);
     }
-
   };
 
   return (

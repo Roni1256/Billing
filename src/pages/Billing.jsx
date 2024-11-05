@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import Table from "../components/General Components/Table";
 import Form from "../components/General Components/Form";
 import Button from "../components/General Components/Button";
 import Bill from "../components/Billing/Bill";
 import axios from "axios";
 import API_URLS from "../constants";
-import {BsArrowClockwise, BsSave, BsTrash} from 'react-icons/bs'
+import { BsArrowClockwise, BsSave, BsTrash } from "react-icons/bs";
 import { useInvoiceNumber } from "../hooks/useInvoiceNumber";
 import Invoice from "../components/Billing/Invoice";
-import { IoMdCloseCircle } from "react-icons/io";
-import { MdDelete } from "react-icons/md";
 import { CgSwap } from "react-icons/cg";
 
-const Billing = ({ data, isLoading,updates }) => {
-  const [isDelete,setIsDelete]=useState(false)
-  const [isInvoice, setToggleInvoice] = useState(data.invoicetype === "invoice" ? true : false);
+const Billing = ({ data, isLoading, updates }) => {
+  const [isDelete, setIsDelete] = useState(false);
+  const [isInvoice, setToggleInvoice] = useState(
+    data.invoicetype === "invoice" ? true : false
+  );
   const [showForm, setShowForm] = useState(false);
   const [customerData, setCustomerData] = useState({
     invoice_number: useInvoiceNumber(),
@@ -22,7 +22,7 @@ const Billing = ({ data, isLoading,updates }) => {
     email: "",
     phone: "",
     products: [],
-    address:"",
+    address: "",
     totalPrice: 0,
     totalItems: 0,
   });
@@ -57,30 +57,38 @@ const Billing = ({ data, isLoading,updates }) => {
     setCustomerData({ ...customerData, [e.target.name]: e.target.value });
   };
 
-  const submitForm = async(e) => {
+  const submitForm = async (e) => {
     e.preventDefault();
     if (customerData.products.length === 0) {
       setFormMessage(formMessages.emptyField);
       return;
-    }console.log(customerData);
+    }
+    console.log(customerData);
 
-    if(customerData.email===""){
+    if (customerData.email === "") {
       setFormMessage(formMessages.emptyField);
       setShowForm(true);
       return;
     }
 
-    if(isInvoice && (customerData.name==="" || customerData.email==="" || customerData.phone==="" || customerData.phone.length !== 10 || customerData.address==='')) {
+    if (
+      isInvoice &&
+      (customerData.name === "" ||
+        customerData.email === "" ||
+        customerData.phone === "" ||
+        customerData.phone.length !== 10 ||
+        customerData.address === "")
+    ) {
       setFormMessage(formMessages.emptyField);
       setShowForm(true);
 
       return;
     }
     await axios
-      .post(API_URLS.addcustomer+data._id, customerData)
+      .post(API_URLS.addcustomer + data._id, customerData)
       .then((res) => {
         setCustomerData({
-          invoice_number:useInvoiceNumber(),
+          invoice_number: useInvoiceNumber(),
           name: "",
           email: "",
           phone: "",
@@ -92,11 +100,11 @@ const Billing = ({ data, isLoading,updates }) => {
           totalItems: 0,
         });
         setFormMessage(formMessages.add);
-        updates()
+        updates();
       })
       .catch((err) => {
         console.log(err);
-      })
+      });
   };
   const formData = [
     {
@@ -121,35 +129,36 @@ const Billing = ({ data, isLoading,updates }) => {
       change: handleChanges,
     },
     {
-      label:"Address",
-      type:"text",
-      value:customerData.address,
-      name:"address",
-      change:handleChanges
-    }
-    
+      label: "Address",
+      type: "text",
+      value: customerData.address,
+      name: "address",
+      change: handleChanges,
+    },
   ];
   const addProduct = (product, userquantity) => {
     try {
-      const existingProduct = productData.find(item => item.product._id === product._id);
-      
+      const existingProduct = productData.find(
+        (item) => item.product._id === product._id
+      );
+
       if (existingProduct) {
         const newQuantity = existingProduct.userquantity + userquantity;
-        setProductData(productData.map(item => 
-          item.product._id === product._id 
-            ? { ...item, userquantity: newQuantity }
-            : item
-        ));
-        
+        setProductData(
+          productData.map((item) =>
+            item.product._id === product._id
+              ? { ...item, userquantity: newQuantity }
+              : item
+          )
+        );
+
         setCustomerData((prev) => ({
           ...prev,
           invoice_number: prev.invoice_number,
-          products: prev.products.map(p => 
-            p._id === product._id 
-              ? { ...p, userquantity: newQuantity }
-              : p
+          products: prev.products.map((p) =>
+            p._id === product._id ? { ...p, userquantity: newQuantity } : p
           ),
-          totalPrice: prev.totalPrice + (product.price * userquantity),
+          totalPrice: prev.totalPrice + product.price * userquantity,
           totalItems: prev.totalItems + userquantity,
         }));
       } else {
@@ -157,34 +166,41 @@ const Billing = ({ data, isLoading,updates }) => {
         setCustomerData((prev) => ({
           ...prev,
           invoice_number: prev.invoice_number,
-          products: [...prev.products, {
-            _id: product._id,
-            name: product.name,
-            price: product.price,
-            userquantity: userquantity
-          }],
-          totalPrice: prev.totalPrice + (product.price * userquantity),
+          products: [
+            ...prev.products,
+            {
+              _id: product._id,
+              name: product.name,
+              price: product.price,
+              userquantity: userquantity,
+            },
+          ],
+          totalPrice: prev.totalPrice + product.price * userquantity,
           totalItems: prev.totalItems + userquantity,
         }));
       }
-    } catch(error) {
+    } catch (error) {
       console.log(error);
     }
     console.log(customerData);
-  };  
+  };
   const deleteProduct = (product) => {
-    const productToDelete = productData.find(item => item.product.id === product.id);
+    const productToDelete = productData.find(
+      (item) => item.product.id === product.id
+    );
     if (productToDelete) {
-      setCustomerData(prev => ({
+      setCustomerData((prev) => ({
         ...prev,
-        products: prev.products.filter(p => p.id !== product.id),
-        totalPrice: prev.totalPrice - (product.price * productToDelete.userquantity),
-        totalItems: prev.totalItems - productToDelete.userquantity
+        products: prev.products.filter((p) => p.id !== product.id),
+        totalPrice:
+          prev.totalPrice - product.price * productToDelete.userquantity,
+        totalItems: prev.totalItems - productToDelete.userquantity,
       }));
-      setProductData(productData.filter((item) => item.product.id !== product.id));
+      setProductData(
+        productData.filter((item) => item.product.id !== product.id)
+      );
     }
   };
-
 
   return (
     <>
@@ -193,109 +209,97 @@ const Billing = ({ data, isLoading,updates }) => {
         here!
       </h1>
       <div className="flex my-5 gap-5 w-full justify-center">
-              <Button label="Swap " click={()=>setShowForm(!showForm)} icon={<CgSwap size={20}/>} style={"bg-blue-500 hover:bg-blue-700 focus:ring-blue-300 h-fit"} />
-              <Button
-                  label="Reset"
-                  click={() =>{
-                    setProductData([])
-                    setCustomerData({
-                      name: "",
-                      email: "",
-                      phone: "",
-                      state: "",
-                      city: "",
-                      pincode: "",
-                      products: [],
-                      totalPrice: 0,
-                      totalItems: 0,
-                    })
-                  }
-                  }
-                  icon={<BsArrowClockwise size={20}/>}
-                  style={"bg-red-500 hover:bg-red-700 focus:ring-red-300 h-fit"}
-                />
-                <Button
-                  label="Save"
-                  click={submitForm}
-                  style={"bg-green-500 hover:bg-green-700 focus:ring-green-300"}
-                  icon={<BsSave size={20}/>}
-
-                />
-          </div>
+        <Button
+          label="Swap "
+          click={() => setShowForm(!showForm)}
+          icon={<CgSwap size={20} />}
+          style={"bg-blue-500 hover:bg-blue-700 focus:ring-blue-300 h-fit"}
+        />
+        <Button
+          label="Reset"
+          click={() => {
+            setProductData([]);
+            setCustomerData({
+              name: "",
+              email: "",
+              phone: "",
+              state: "",
+              city: "",
+              pincode: "",
+              products: [],
+              totalPrice: 0,
+              totalItems: 0,
+            });
+          }}
+          icon={<BsArrowClockwise size={20} />}
+          style={"bg-red-500 hover:bg-red-700 focus:ring-red-300 h-fit"}
+        />
+        <Button
+          label="Save"
+          click={submitForm}
+          style={"bg-green-500 hover:bg-green-700 focus:ring-green-300"}
+          icon={<BsSave size={20} />}
+        />
+      </div>
       <div className="w-full py-5  flex flex-col xl:flex-row gap-5 ">
-
         <div className="w-full flex flex-col gap-10 max-w-[700px] relative">
-          
-          {isInvoice && showForm && 
+          {isInvoice && showForm && (
             <Form
               formTitle={"Customer Details"}
               data={formData}
               message={formMessage}
               submit={submitForm}
-              
             />
-          }
-          {!isInvoice && showForm && <Form 
+          )}
+          {!isInvoice && showForm && (
+            <Form
               formTitle={"Customer's Email"}
-              data={[{
-                label: "Email",
-                type: "text",
-                placeholder: "Enter Email",
-                name: "email",
-                value: customerData.email,
-                change: handleChanges
-              }]}
+              data={[
+                {
+                  label: "Email",
+                  type: "text",
+                  placeholder: "Enter Email",
+                  name: "email",
+                  value: customerData.email,
+                  change: handleChanges,
+                },
+              ]}
               message={formMessage}
-            />}
-            
-           {!showForm && <Table
+            />
+          )}
+
+          {!showForm && (
+            <Table
               type="bill"
               data={data.products}
               loading={isLoading}
               add={addProduct}
-            />}
-           
-     
-            
-          
-          
+            />
+          )}
         </div>
 
         <div className="w-full flex flex-col items-center justify-center ">
           <div className=" max-h-[600px] overflow-auto">
-
-            {isInvoice?
-           
-                <Invoice data={customerData} products={productData} companyData={data} invoiceno={customerData.invoice_number}/>
-           :
-                <Bill items={productData} billno={customerData.invoice_number} billData={customerData} data={data}/> 
-            }
+            {isInvoice ? (
+              <Invoice
+                data={customerData}
+                products={productData}
+                companyData={data}
+                invoiceno={customerData.invoice_number}
+              />
+            ) : (
+              <Bill
+                items={productData}
+                billno={customerData.invoice_number}
+                billData={customerData}
+                data={data}
+              />
+            )}
           </div>
-          
-         
         </div>
       </div>
-         
-      
     </>
   );
 };
 
 export default Billing;
-
-// { isDelete && <div className="h-screen w-full absolute top-0 left-0 backdrop-blur-md flex items-center justify-center ">
-//   <div className="bg-white p-5 rounded-lg flex flex-col items-center justify-center gap-5 text-slate-700 w-[400px]">
-//     <header className="flex items-center justify-between w-full">
-//       <span>Delete Product</span>
-//       <button className="text-red-500 hover:text-red-700" onClick={() => setIsDelete(false)}><IoMdCloseCircle size={30} /></button>
-//     </header>
-//     <main className=" flex flex-col gap-3 w-full">
-//       {productData.map((product) => (  
-//         <div className="flex w-full items-center justify-between text-slate-800 font-semibold ring-1 ring-slate-900/40 p-2 rounded-lg">
-//           <span>{product.name}</span>
-//           <button className="text-red-500 hover:text-red-700" onClick={deleteProduct(product)}><MdDelete size={20}/></button>
-//         </div>
-//       ))}
-//     </main>
-//   </div>
-//</div>}

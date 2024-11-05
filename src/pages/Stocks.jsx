@@ -14,12 +14,11 @@ const Stocks = ({ data, isLoading, updates }) => {
     description: "",
     price: 0,
     category: "",
-    quantity:1,
+    quantity: 1,
   });
-  const [isEdit,setEdit]=useState(false)
+  const [isEdit, setEdit] = useState(false);
   const [allProducts, setProducts] = useState([]);
 
-  
   const formMessages = {
     initial: {
       message: "",
@@ -83,11 +82,11 @@ const Stocks = ({ data, isLoading, updates }) => {
       value: resData.quantity,
       name: "quantity",
       change: handleChanges,
-    }
+    },
   ];
   const submitForm = async (e) => {
     console.log(resData);
-    
+
     e.preventDefault();
     if (
       !resData.name ||
@@ -101,9 +100,7 @@ const Stocks = ({ data, isLoading, updates }) => {
     }
     await axios
       .post(API_URLS.addproduct + data._id, resData)
-      .then((res) => {
-        
-      })
+      .then((res) => {})
       .catch((err) => {
         console.log(err);
       })
@@ -123,7 +120,6 @@ const Stocks = ({ data, isLoading, updates }) => {
     await axios
       .get(API_URLS.getproducts + data._id)
       .then((res) => {
-
         setProducts(res.data);
       })
       .catch((err) => {
@@ -144,17 +140,15 @@ const Stocks = ({ data, isLoading, updates }) => {
       });
   };
   const editProduct = async (id) => {
-
-    
-    await axios.get(API_URLS.getproduct + data._id + "/" + id)
-    .then((res) => {
-
-      setResData(res.data);
-      setEdit(true)
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    await axios
+      .get(API_URLS.getproduct + data._id + "/" + id)
+      .then((res) => {
+        setResData(res.data);
+        setEdit(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     // await axios
     //   .patch(API_URLS.updateproduct + data._id + "/" + id, resData)
     //   .then((res) => {
@@ -186,12 +180,14 @@ const Stocks = ({ data, isLoading, updates }) => {
           here!
         </h1>
         <div className="my-5 flex items-center justify-center">
-          <StockMonitor data={data}/>
+          <StockMonitor data={data} />
         </div>
         <hr />
-        <h1 className="text-3xl font-bold my-10 tracking-wide xl:col-span-2"> Operate on Stocks</h1>
+        <h1 className="text-3xl font-bold my-10 tracking-wide xl:col-span-2">
+          {" "}
+          Operate on Stocks
+        </h1>
         <div className="flex xl:flex-row flex-col  w-full overflow-auto mt-3">
-
           <div className="w-full p-2">
             <Form
               formTitle={"Add Stock"}
@@ -202,10 +198,14 @@ const Stocks = ({ data, isLoading, updates }) => {
             />
           </div>
           <div className=" w-full p-3 ">
-            <Table type={"admin"} data={allProducts} deleteProduct={deleteProduct} editProduct={editProduct}/>
+            <Table
+              type={"admin"}
+              data={allProducts}
+              deleteProduct={deleteProduct}
+              editProduct={editProduct}
+            />
           </div>
         </div>
-        
       </div>
     </>
   );
