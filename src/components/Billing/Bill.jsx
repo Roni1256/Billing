@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useTimeData } from '../../hooks/useTimeData';
+import { useInvoiceNumber } from '../../hooks/useInvoiceNumber';
 
 const styles = {
     box: 'bg-white ring-2 ring-gray-800 px-2 sm:px-3 text-slate-900 font-mono max-w-full overflow-x-auto',
@@ -8,7 +9,7 @@ const styles = {
     address: 'text-xs sm:text-sm font-semibold tracking-wider my-2',
     main: 'mb-4 w-full overflow-x-auto',
     billNo: 'text-base sm:text-lg mr-4 sm:mr-8 text-right font-bold',
-    tableStyle: 'w-full mt-3 sm:mt-5 min-w-[500px]',
+    tableStyle: 'w-full mt-3 sm:mt-5 max-w-[500px] min-w-[300px] ',
     tr: 'border-b-2 border-dashed border-gray-700',
     th: 'text-center text-sm sm:text-base p-1',
     td: 'p-1 text-center text-sm sm:text-base',
@@ -17,7 +18,7 @@ const styles = {
 
 const Bill = ({
     items = [],
-    billno = '20xxxxxxxxxxxx',
+    billno = useInvoiceNumber(),
     billData = {
         name: 'xxx',
         phone: 'xxxxxxxxxx',

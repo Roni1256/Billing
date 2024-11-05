@@ -121,7 +121,7 @@ const Details = ({data,isLoading,updates}) => {
                 },
                 {
                     label: "Bill",
-                    value: "Bill"
+                    value: "bill"
                 }
             ],
             name: "invoicetype",

@@ -190,9 +190,9 @@ const Stocks = ({ data, isLoading, updates }) => {
         </div>
         <hr />
         <h1 className="text-3xl font-bold my-10 tracking-wide xl:col-span-2"> Operate on Stocks</h1>
-        <div className="flex xl:flex-row flex-col gap-8 w-full overflow-auto mt-3">
+        <div className="flex xl:flex-row flex-col  w-full overflow-auto mt-3">
 
-          <div className="w-full max-w-[500px] p-3">
+          <div className="w-full p-2">
             <Form
               formTitle={"Add Stock"}
               data={formData}

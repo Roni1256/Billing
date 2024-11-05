@@ -50,7 +50,9 @@ const CustomerMonitoring = ({data}) => {
     <div className='p-4 md:p-10 bg-white rounded-lg w-full max-w-[800px] mx-auto mb-5 md:mb-10'>
         <h1 className='text-base md:text-lg text-slate-800 font-bold mb-3 md:mb-5'>Monitor Customers</h1>
         <h1 className='text-xl md:text-2xl text-slate-600 font-bold my-1 md:my-2 p-1 md:p-2'>{year}</h1>
-        <CustomerChart data={mapCustomer}  />
+        <div className="h-fit">
+            <CustomerChart data={mapCustomer}  />
+        </div>
     </div>
   )
 }

@@ -78,7 +78,7 @@ const Customers = ({ data, isLoading, updates }) => {
         <h1 className="text-2xl md:text-3xl font-bold mt-4">Customers Management</h1>
       </header>
       <main className="flex flex-col justify-between items-center gap-5 my-8 w-full ">
-        <div className="w-full flex flex-col md:flex-row gap-5 md:gap-14 justify-between">
+        <div className="w-full flex flex-col md:flex-row gap-5 md:gap-14 justify-between items-center">
           <Form
             data={formData}
             formTitle="Notify Customers"
@@ -88,7 +88,6 @@ const Customers = ({ data, isLoading, updates }) => {
           />
           <CustomerMonitoring data={data}/>
         </div>
-
         <div className="w-full p-3 md:p-5 rounded-lg bg-white text-slate-700">
           <h1 className="text-lg md:text-xl font-bold my-3 md:my-5">Customer Records</h1>
           <div className="flex flex-col gap-3">

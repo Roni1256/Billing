@@ -10,7 +10,7 @@ import Floats from "../components/General Components/Floats";
 import { GoGraph, GoPeople } from "react-icons/go";
 import { AiFillProduct } from "react-icons/ai";
 import Bill from "../components/Billing/Bill";
-
+import Invoice from '../components/Billing/Invoice'
 const Profile = ({ data, isLoading, updates }) => {
   const [edit, setEdit] = useState(false);
   const [updateData, setUpdateData] = useState({
@@ -152,7 +152,7 @@ const Profile = ({ data, isLoading, updates }) => {
           <h1 className="text-lg md:text-xl font-bold my-2 md:my-3 mb-2">Template</h1>
           <hr />
           <div className="mt-4 w-full max-w-[400px]">
-            <Bill items={[]} data={data} />
+            {data.invoicetype==='bill'? <Bill items={[]} data={data} />: <Invoice items={[]} data={data} companyData={data}/>}
           </div>
       </section>
     </div>  

@@ -6,9 +6,9 @@ const Form = ({ formTitle, data, submit, message, link, btnLabel,style }) => {
   return (
     <>
       <form
-        className={`w-full max-w-full sm:max-w-[90%] md:max-w-[80%] lg:w-full mx-auto p-4 sm:p-6 md:p-8 lg:p-10 bg-white rounded-lg  dark:bg-[#0F0E0E] dark:shadow-[0px_0px_0px_3px_#b2f5ea] shadow-[0px_0px_6px_2px_#4a5568] ${style}`}
+        className={`w-full max-w-full sm:max-w-[90%] md:max-w-[80%] lg:w-full mx-auto p-4 sm:p-6 md:p-8 lg:p-10 bg-white rounded-lg  dark:bg-[#060c17] dark:shadow-[0px_0px_0px_3px_#b2f5ea] shadow-[0px_0px_6px_2px_#4a5568] ${style}`}
         action="submit"
-      >
+      > 
         {formTitle && (
           <div className="text-lg sm:text-xl font-bold text-left pb-6 sm:pb-8 md:pb-10">{formTitle}</div>
         )}

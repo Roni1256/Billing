@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Table from "../components/General Components/Table";
 import Form from "../components/General Components/Form";
 import Button from "../components/General Components/Button";
@@ -10,11 +10,12 @@ import { useInvoiceNumber } from "../hooks/useInvoiceNumber";
 import Invoice from "../components/Billing/Invoice";
 import { IoMdCloseCircle } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
+import { CgSwap } from "react-icons/cg";
 
 const Billing = ({ data, isLoading,updates }) => {
   const [isDelete,setIsDelete]=useState(false)
   const [isInvoice, setToggleInvoice] = useState(data.invoicetype === "invoice" ? true : false);
-  
+  const [showForm, setShowForm] = useState(false);
   const [customerData, setCustomerData] = useState({
     invoice_number: useInvoiceNumber(),
     name: "",
@@ -65,11 +66,14 @@ const Billing = ({ data, isLoading,updates }) => {
 
     if(customerData.email===""){
       setFormMessage(formMessages.emptyField);
+      setShowForm(true);
       return;
     }
 
     if(isInvoice && (customerData.name==="" || customerData.email==="" || customerData.phone==="" || customerData.phone.length !== 10 || customerData.address==='')) {
       setFormMessage(formMessages.emptyField);
+      setShowForm(true);
+
       return;
     }
     await axios
@@ -125,8 +129,6 @@ const Billing = ({ data, isLoading,updates }) => {
     }
     
   ];
-
-
   const addProduct = (product, userquantity) => {
     try {
       const existingProduct = productData.find(item => item.product._id === product._id);
@@ -148,7 +150,7 @@ const Billing = ({ data, isLoading,updates }) => {
               : p
           ),
           totalPrice: prev.totalPrice + (product.price * userquantity),
-          totalItems: Number(prev.totalItems) + Number(userquantity),        
+          totalItems: prev.totalItems + userquantity,
         }));
       } else {
         setProductData([...productData, { product, userquantity }]);
@@ -190,9 +192,41 @@ const Billing = ({ data, isLoading,updates }) => {
         Prepare your <span className="text-purple-500 text-3xl">Bill</span>{" "}
         here!
       </h1>
-      <div className="w-full py-5  flex flex-col xl:flex-row gap-8 ">
-        <div className="w-full flex flex-col gap-10 ">
-          {isInvoice && 
+      <div className="flex my-5 gap-5 w-full justify-center">
+              <Button label="Swap " click={()=>setShowForm(!showForm)} icon={<CgSwap size={20}/>} style={"bg-blue-500 hover:bg-blue-700 focus:ring-blue-300 h-fit"} />
+              <Button
+                  label="Reset"
+                  click={() =>{
+                    setProductData([])
+                    setCustomerData({
+                      name: "",
+                      email: "",
+                      phone: "",
+                      state: "",
+                      city: "",
+                      pincode: "",
+                      products: [],
+                      totalPrice: 0,
+                      totalItems: 0,
+                    })
+                  }
+                  }
+                  icon={<BsArrowClockwise size={20}/>}
+                  style={"bg-red-500 hover:bg-red-700 focus:ring-red-300 h-fit"}
+                />
+                <Button
+                  label="Save"
+                  click={submitForm}
+                  style={"bg-green-500 hover:bg-green-700 focus:ring-green-300"}
+                  icon={<BsSave size={20}/>}
+
+                />
+          </div>
+      <div className="w-full py-5  flex flex-col xl:flex-row gap-5 ">
+
+        <div className="w-full flex flex-col gap-10 max-w-[700px] relative">
+          
+          {isInvoice && showForm && 
             <Form
               formTitle={"Customer Details"}
               data={formData}
@@ -201,34 +235,35 @@ const Billing = ({ data, isLoading,updates }) => {
               
             />
           }
-
-          <>
-              <Form 
-                formTitle={"Customer's Email"}
-                data={[{
-                  label: "Email",
-                  type: "text",
-                  placeholder: "Enter Email",
-                  name: "email",
-                  value: customerData.email,
-                  change: handleChanges
-                }]}
-                message={formMessage}
-              />
-              <Table
-                type="bill"
-                data={data.products}
-                loading={isLoading}
-                add={addProduct}
-              />
-          </>
+          {!isInvoice && showForm && <Form 
+              formTitle={"Customer's Email"}
+              data={[{
+                label: "Email",
+                type: "text",
+                placeholder: "Enter Email",
+                name: "email",
+                value: customerData.email,
+                change: handleChanges
+              }]}
+              message={formMessage}
+            />}
+            
+           {!showForm && <Table
+              type="bill"
+              data={data.products}
+              loading={isLoading}
+              add={addProduct}
+            />}
+           
+     
             
           
           
         </div>
 
         <div className="w-full flex flex-col items-center justify-center ">
-          <div className="max-h-[500px] w-full overflow-auto " >
+          <div className=" max-h-[600px] overflow-auto">
+
             {isInvoice?
            
                 <Invoice data={customerData} products={productData} companyData={data} invoiceno={customerData.invoice_number}/>
@@ -236,62 +271,31 @@ const Billing = ({ data, isLoading,updates }) => {
                 <Bill items={productData} billno={customerData.invoice_number} billData={customerData} data={data}/> 
             }
           </div>
-          <div className="flex my-5 gap-5 ">
-          <Button
-              label="Reset"
-              click={() =>{
-                setProductData([])
-                setCustomerData({
-                  name: "",
-                  email: "",
-                  phone: "",
-                  state: "",
-                  city: "",
-                  pincode: "",
-                  products: [],
-                  totalPrice: 0,
-                  totalItems: 0,
-                })
-              }
-              }
-              icon={<BsArrowClockwise size={20}/>}
-              style={"bg-red-500 hover:bg-red-700 focus:ring-red-300"}
-            />
-            <Button
-              label="Save"
-              click={submitForm}
-              style={"bg-green-500 hover:bg-green-700 focus:ring-green-300"}
-              icon={<BsSave size={20}/>}
-
-            />
-            <Button
-              label="Delete Product"
-              click={() => setIsDelete(true)}
-              style={"bg-red-500 hover:bg-red-700 focus:ring-red-300 "}
-              icon={<BsTrash size={20}/>}
-            />
-          </div>
+          
          
         </div>
       </div>
-      { isDelete && <div className="h-screen w-full absolute top-0 left-0 backdrop-blur-md flex items-center justify-center ">
-        <div className="bg-white p-5 rounded-lg flex flex-col items-center justify-center gap-5 text-slate-700 w-[400px]">
-          <header className="flex items-center justify-between w-full">
-            <span>Delete Product</span>
-            <button className="text-red-500 hover:text-red-700" onClick={() => setIsDelete(false)}><IoMdCloseCircle size={30} /></button>
-          </header>
-          <main className=" flex flex-col gap-3 w-full">
-            {productData.map((product) => (  
-              <div className="flex w-full items-center justify-between text-slate-800 font-semibold ring-1 ring-slate-900/40 p-2 rounded-lg">
-                <span>{product.name}</span>
-                <button className="text-red-500 hover:text-red-700" onClick={deleteProduct(product)}><MdDelete size={20}/></button>
-              </div>
-            ))}
-          </main>
-        </div>
-      </div>}
+         
+      
     </>
   );
 };
 
 export default Billing;
+
+// { isDelete && <div className="h-screen w-full absolute top-0 left-0 backdrop-blur-md flex items-center justify-center ">
+//   <div className="bg-white p-5 rounded-lg flex flex-col items-center justify-center gap-5 text-slate-700 w-[400px]">
+//     <header className="flex items-center justify-between w-full">
+//       <span>Delete Product</span>
+//       <button className="text-red-500 hover:text-red-700" onClick={() => setIsDelete(false)}><IoMdCloseCircle size={30} /></button>
+//     </header>
+//     <main className=" flex flex-col gap-3 w-full">
+//       {productData.map((product) => (  
+//         <div className="flex w-full items-center justify-between text-slate-800 font-semibold ring-1 ring-slate-900/40 p-2 rounded-lg">
+//           <span>{product.name}</span>
+//           <button className="text-red-500 hover:text-red-700" onClick={deleteProduct(product)}><MdDelete size={20}/></button>
+//         </div>
+//       ))}
+//     </main>
+//   </div>
+//</div>}

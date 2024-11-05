@@ -41,10 +41,11 @@ import { TbListDetails } from "react-icons/tb";
 
 
     ]
+    
 
     return (
         <div className='relative'>
-            <div className={`z-10 bg-transparent md:bg-white dark:bg-black/40 backdrop-blur-md h-screen w-full sm:w-[250px] md:w-[300px] md:relative fixed left-0 dark:text-white p-3 sm:p-4 pt-5 sm:pt-7 border-r-2 border-gray-700/20 transition-all duration-300 ${openpanel ? "-left-0" : "-left-full"}`}>
+            <div className={`z-10 bg-transparent md:bg-white dark:bg-black/40 backdrop-blur-md h-screen w-full sm:w-[250px] md:w-[300px] md:relative fixed left-0 dark:text-white p-3 sm:p-4 pt-5 sm:pt-7 border-r-2 border-gray-700/20 transition-all duration-300 ${openpanel ? "left-0" : "left-[-100%]"}`}>
               <div className="mb-6 sm:mb-8">
                 <h1 className="text-xl sm:text-2xl font-bold">Navigations</h1>
                 <hr className='mt-2 sm:mt-3'/>
