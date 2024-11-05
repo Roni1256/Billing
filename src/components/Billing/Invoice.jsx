@@ -2,11 +2,11 @@ import React from 'react'
 import { useTimeData } from '../../hooks/useTimeData';
 
 const styles = {
-    header: "bg-gray-800 border-b p-4 flex items-center justify-between",
-    headtext: "text-white text-2xl",
-    section: "flex justify-between",
-    main: "p-5",
-    footer: "bg-gray-800 text-white p-4 flex justify-between items-center"
+    header: "bg-gray-800 border-b p-2 md:p-4 flex flex-col md:flex-row items-center justify-between",
+    headtext: "text-white text-xl md:text-2xl",
+    section: "flex flex-col md:flex-row justify-between gap-4",
+    main: "p-3 md:p-5",
+    footer: "bg-gray-800 text-white p-3 md:p-4 flex flex-col md:flex-row justify-between items-center gap-2"
 }
 
 const Element = ({ label, info, style }) => {
@@ -35,7 +35,7 @@ const Invoice = ({ companyData,data = {
     const [dates, time] = useTimeData()
 
     return (
-      <div className="bg-white border rounded shadow text-slate-800">
+      <div className="bg-white border rounded shadow text-slate-800 max-w-full overflow-x-auto">
         <header className={styles.header}>
           <h1 className={styles.headtext}>{companyData.company_name}</h1>
         </header>
@@ -52,8 +52,8 @@ const Invoice = ({ companyData,data = {
               <Element label="Invoice Date" info={dates} />
             </div>
           </section>
-          <section>
-                      <table className="w-full mt-8 border-collapse">
+          <section className="overflow-x-auto">
+                      <table className="w-full mt-8 border-collapse min-w-[600px]">
                         <thead className="bg-gray-100 text-slate-800">
                           <tr>
                             <th className="p-2 text-left">Item</th>
@@ -82,9 +82,9 @@ const Invoice = ({ companyData,data = {
         <footer className={styles.footer}>
           <div className="w-full">
             <strong className='text-xs'>Company Address</strong>
-            <p className='text-sm tracking-wide '>{companyData.address}</p>
+            <p className='text-sm tracking-wide'>{companyData.address}</p>
           </div>
-          <span className="text-xl w-full text-right">Thank You!</span>
+          <span className="text-base md:text-xl w-full text-center md:text-right">Thank You!</span>
         </footer>
       </div>
     )

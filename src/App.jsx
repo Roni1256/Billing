@@ -78,9 +78,8 @@ const App = () => {
               <Route path='templates' element={<Templates updates={getCurrentUser}/>}/>
             
               <Route path='details' element={<Details data={userData} isLoading={isLoading} updates={getCurrentUser}/>}/>
-              <Route path='customer-management' element={<Customers data={userData} isLoading={isLoading} updates={getCurrentUser}/>}/>
-              
-              <Route path='billing' element={<Billing data={userData} isLoading={isLoading} updates={getCurrentUser}/>} />
+                          <Route path='customer-management' element={<Customers data={userData} isLoading={isLoading} updates={getCurrentUser}/>}/>            
+                          <Route path='billing' element={<Billing data={userData} isLoading={isLoading} updates={getCurrentUser}/>} />
               <Route path='stocks' element={<Stocks data={userData} isLoading={isLoading} updates={getCurrentUser}/>} />
             </Route> 
           </>

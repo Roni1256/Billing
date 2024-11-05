@@ -8,14 +8,19 @@ import API_URLS from '../constants'
 const business=[
     {label: "Retail", value: "Retail"},
     {label: "Healthcare", value: "Healthcare"},
-    {label: "Legal", value: "Legal"},
-    {label: "Finance", value: "Finance"},
+    {label: "Restaurant", value: "Restaurant"},
     {label: "Hospitality", value: "Hospitality"},
     {label: "Food Services", value: "Food Services"},
-    {label: "Education", value: "Education"},
-    {label: "Construction", value: "Construction"},
-    {label: "Manufacturing", value: "Manufacturing"}
+    {label: "Grocery", value: "Grocery"},
+    {label: "Pharmacy", value: "Pharmacy"},
+    {label: "Auto Services", value: "Auto Services"},
+    {label: "Professional Services", value: "Professional Services"},
+    {label: "Salon & Spa", value: "Salon & Spa"},
+    {label: "Electronics", value: "Electronics"},
+    {label: "Consulting", value: "Consulting"}
 ]
+
+
 const Details = ({data,isLoading,updates}) => {
     const [patchLoad,setPatchLoad]=useState(false)
     const [isSuccess,setSuccess]=useState(false)
@@ -202,10 +207,10 @@ const Details = ({data,isLoading,updates}) => {
     }
 
     return (
-        <div className="w-full rounded-lg backdrop-blur-md my-5 p-7 flex flex-col items-center">
-            <h1 className="text-center text-3xl font-bold text-gray-700 mb-2 dark:text-slate-300">Manage Company Information</h1>
+        <div className="w-full rounded-lg backdrop-blur-md my-5 p-3 md:p-7 flex flex-col items-center">
+            <h1 className="text-center text-2xl md:text-3xl font-bold text-gray-700 mb-2 dark:text-slate-300">Manage Company Information</h1>
             <hr />
-            <div className="max-w-[700px] lg:min-w-[600px] min-w-[400px]">
+            <div className="w-full max-w-[700px] px-2 sm:px-4">
                 <div className="mt-5 flex items-center flex-col justify-center gap-5">
                     <Form data={formData1} formTitle={"Company Information"}/>
                 </div>
@@ -217,13 +222,12 @@ const Details = ({data,isLoading,updates}) => {
                 </div>
             </div>
             {patchLoad &&
-                <div className="absolute top-0 left-0 h-full w-full flex items-center justify-center backdrop-blur-md">
-
-                <Floats title={"Loading"} icon={<BiLoader size={40} className="animate-spin " />} className="absolute top-0 right-0" />
+                <div className="fixed inset-0 flex items-center justify-center backdrop-blur-md z-50">
+                    <Floats title={"Loading"} icon={<BiLoader size={40} className="animate-spin" />} className="absolute top-0 right-0" />
                 </div>
             }
             {isSuccess &&
-                <div className="absolute top-0 left-0 h-full w-full flex items-center justify-center backdrop-blur-md">
+                <div className="fixed inset-0 flex items-center justify-center backdrop-blur-md z-50">
                     <Floats title={"Successfully Updated"} icon={<BiChevronRightCircle size={40}  />} className="absolute top-0 right-0" />
                 </div>
             }

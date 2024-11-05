@@ -30,156 +30,127 @@ const Table = ({
   
   return (
     <>
-     <div
-        className={`flex flex-col  w-full h-full ${
-          type === "bill" ? "lg:w-[700px] xl:w-full" : "lg:w-[600px] xl:w-full"
-        }`}
-      >
-        <div className=" overflow-x-auto w-full h-full ">
-          <div className=" min-w-full inline-block align-middle w-full h-full">
-            <div className="overflow-auto ring-1 dark:ring-white ring-slate-700   flex w-full flex-col bg-gray-50 ">
-              <div className="flex items-center justify-center py-3 border-b-2 bg-white">
+     <div className="w-full h-full px-4 sm:px-6 lg:px-8">
+        <div className="overflow-x-auto">
+          <div className="inline-block min-w-full align-middle">
+            <div className="overflow-hidden ring-1 dark:ring-white ring-slate-700 bg-gray-50 rounded-lg">
+              <div className="flex items-center justify-center p-4 border-b-2 bg-white">
                 <input
                   type="text"
-                  className="w-1/2 px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                  className="w-full sm:w-2/3 md:w-1/2 px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                   placeholder="Search"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
-
-              <table className="w-full divide-y divide-gray-200 dark:text-slate-800 h-full ">
-                <thead>
-                  <tr className="bg-white">
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-start text-sm  uppercase font-bold"
-                    >
-                      Product
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-start text-sm font-bold  uppercase"
-                    >
-                      Price
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-start text-sm font-bold uppercase"
-                    >
-                      Description
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-start text-sm font-bold uppercase"
-                    >
-                      Quantity
-                    </th>
-                    {type === "admin" && (
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-center text-sm font-bold  uppercase"
-                      >
-                        Action
+              <div className="h-full max-h-[600px] overflow-auto">
+                <table className="min-w-full divide-y divide-gray-200 dark:text-slate-800">
+                  <thead className="sticky top-0 bg-white">
+                    <tr>
+                      <th scope="col" className="px-3 sm:px-6 py-3 text-start text-xs sm:text-sm font-bold uppercase">
+                        Product
                       </th>
-                    )}
-                    {type === "bill" && (
-                      <>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-center text-sm font-bold  uppercase"
-                        >
-                          Quantity
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-left text-md font-bold  uppercase"
-                        >
+                      <th scope="col" className="px-3 sm:px-6 py-3 text-start text-xs sm:text-sm font-bold uppercase">
+                        Price
+                      </th>
+                      <th scope="col" className="px-3 sm:px-6 py-3 text-start text-xs sm:text-sm font-bold uppercase hidden sm:table-cell">
+                        Description
+                      </th>
+                      <th scope="col" className="px-3 sm:px-6 py-3 text-start text-xs sm:text-sm font-bold uppercase">
+                        Quantity
+                      </th>
+                      {type === "admin" && (
+                        <th scope="col" className="px-3 sm:px-6 py-3 text-center text-xs sm:text-sm font-bold uppercase">
                           Action
                         </th>
-                      </>
-                    )}
-                  </tr>
-                </thead>
-                {data.length>0?<tbody className="divide-y divide-gray-200 overflow-auto h-full ">
-                  {filteredData &&
-                    filteredData.map((item) => {
-                      return (
+                      )}
+                      {type === "bill" && (
                         <>
-                          <tr className=" dark:text-slate-800   ">
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium ">
+                          <th scope="col" className="px-3 sm:px-6 py-3 text-center text-xs sm:text-sm font-bold uppercase">
+                            Quantity
+                          </th>
+                          <th scope="col" className="px-3 sm:px-6 py-3 text-left text-xs sm:text-sm font-bold uppercase">
+                            Action
+                          </th>
+                        </>
+                      )}
+                    </tr>
+                  </thead>
+                  {data.length > 0 ? (
+                    <tbody className="divide-y divide-gray-200">
+                      {filteredData &&
+                        filteredData.map((item) => (
+                          <tr key={item._id} className="dark:text-slate-800">
+                            <td className="px-3 sm:px-6 py-4 text-xs sm:text-sm font-medium">
                               {item.name}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm ">
+                            <td className="px-3 sm:px-6 py-4 text-xs sm:text-sm">
                               ${item.price}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm ">
+                            <td className="px-3 sm:px-6 py-4 text-xs sm:text-sm hidden sm:table-cell">
                               {item.description}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-center ">
+                            <td className="px-3 sm:px-6 py-4 text-xs sm:text-sm text-center">
                               {item.quantity}
                             </td>
                             {type === "admin" && (
-                              <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium flex w-full  items-center justify-center gap-5">
+                              <td className="px-3 sm:px-6 py-4 text-xs sm:text-sm flex items-center justify-center gap-2 sm:gap-5">
                                 <button
                                   type="button"
-                                  onClick={() => {
-                                    deleteProduct(item._id);
-                                  }}
-                                  className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent  disabled:opacity-50 disabled:pointer-events-none bg-red-700 hover:bg-red-800 focus:bg-red-900 text-white p-2 "
+                                  onClick={() => deleteProduct(item._id)}
+                                  className="inline-flex items-center p-1.5 sm:p-2 text-sm font-semibold rounded-lg border border-transparent bg-red-700 hover:bg-red-800 focus:bg-red-900 text-white"
                                 >
-                                  <MdDelete size={20}   />
+                                  <MdDelete size={16} sm:size={20} />
                                 </button>
                                 <button
                                   type="button"
-                                  className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent   disabled:opacity-50 disabled:pointer-events-none bg-blue-700 hover:bg-blue-800 focus:bg-blue-900 text-white p-2 "
-                                  onClick={() => {
-                                    editProduct(item._id);
-                                  }}
+                                  onClick={() => editProduct(item._id)}
+                                  className="inline-flex items-center p-1.5 sm:p-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-700 hover:bg-blue-800 focus:bg-blue-900 text-white"
                                 >
-                                  <BiEdit size={20}/>
+                                  <BiEdit size={16} sm:size={20} />
                                 </button>
                               </td>
                             )}
                             {type === "bill" && (
                               <>
-                                <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium flex w-full  items-center justify-center gap-5">
+                                <td className="px-3 sm:px-6 py-4 text-xs sm:text-sm">
                                   <input
                                     type="number"
                                     min={1}
                                     max={50}
                                     step={1}
                                     defaultValue={1}
-                                    className="w-full max-w-20 h-8 border-2 rounded-lg text-black p-2"
-                                    onChange={(e) => {
-                                      setQuantity(e.target.value);
-                                    }}
+                                    className="w-16 sm:w-20 h-8 border-2 rounded-lg text-black p-2 text-xs sm:text-sm"
+                                    onChange={(e) => setQuantity(e.target.value)}
                                   />
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm w-fit  ">
-                                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg ">
-                                    <IoIosAddCircle
-                                      size={20}
-                                      onClick={() => {
-                                        add(item,isquantity);
-                                        setQuantity(1);
-                                      }}
-                                    />
+                                <td className="px-3 sm:px-6 py-4 text-xs sm:text-sm">
+                                  <button 
+                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-1.5 sm:p-2 rounded-lg"
+                                    onClick={() => {
+                                      add(item,isquantity);
+                                      setQuantity(1);
+                                    }}
+                                  >
+                                    <IoIosAddCircle size={16} sm:size={20} />
                                   </button>
                                 </td>
                               </>
                             )}
                           </tr>
-                        </>
-                      );
-                    })}
-                </tbody>
-                :
-                <tbody className="  w-full flex items-center justify-center  ">
-                  <h1 className="w-full text-xl font-bold my-5 text-center ">No data found!</h1>
-                </tbody>
-                }
-              </table>
+                        ))}
+                    </tbody>
+                  ) : (
+                    <tbody>
+                      <tr>
+                        <td colSpan="5" className="py-4">
+                          <h1 className="text-lg sm:text-xl font-bold text-center">No data found!</h1>
+                        </td>
+                      </tr>
+                    </tbody>
+                  )}
+                </table>
+              </div>
             </div>
           </div>
         </div>

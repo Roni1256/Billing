@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Table from "../components/General Components/Table";
 import Form from "../components/General Components/Form";
 import Button from "../components/General Components/Button";
@@ -148,7 +148,7 @@ const Billing = ({ data, isLoading,updates }) => {
               : p
           ),
           totalPrice: prev.totalPrice + (product.price * userquantity),
-          totalItems: prev.totalItems + userquantity,
+          totalItems: Number(prev.totalItems) + Number(userquantity),        
         }));
       } else {
         setProductData([...productData, { product, userquantity }]);
@@ -183,7 +183,7 @@ const Billing = ({ data, isLoading,updates }) => {
     }
   };
 
-  
+
   return (
     <>
       <h1 className=" mt-5 text-3xl font-bold  tracking-wide  ">
@@ -230,8 +230,10 @@ const Billing = ({ data, isLoading,updates }) => {
         <div className="w-full flex flex-col items-center justify-center ">
           <div className="max-h-[500px] w-full overflow-auto " >
             {isInvoice?
-            <Invoice data={customerData} products={productData} companyData={data} invoiceno={customerData.invoice_number}/>:
-            <Bill items={productData} billno={customerData.invoice_number} billData={customerData} data={data}/> 
+           
+                <Invoice data={customerData} products={productData} companyData={data} invoiceno={customerData.invoice_number}/>
+           :
+                <Bill items={productData} billno={customerData.invoice_number} billData={customerData} data={data}/> 
             }
           </div>
           <div className="flex my-5 gap-5 ">
