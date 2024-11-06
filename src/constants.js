@@ -1,7 +1,7 @@
 import dotenv from "dotenv"
 dotenv.config();
 
-const BASE_URL =process.env.BASE_URL
+const BASE_URL ="http://localhost:5000"
 const API_URLS={
     presentuser: `${BASE_URL}/user/present/`,
     signup: `${BASE_URL}/user/signup/`,
