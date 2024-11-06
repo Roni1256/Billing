@@ -1,5 +1,3 @@
-import dotenv from "dotenv"
-dotenv.config();
 
 const BASE_URL ="http://localhost:5000"
 const API_URLS={
