@@ -1,6 +1,7 @@
+import dotenv from "dotenv"
+dotenv.config();
 
-
-const BASE_URL = "https://billing-backend-swart.vercel.app"
+const BASE_URL =process.env.BASE_URL
 const API_URLS={
     presentuser: `${BASE_URL}/user/present/`,
     signup: `${BASE_URL}/user/signup/`,
