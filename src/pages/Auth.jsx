@@ -3,11 +3,13 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import API_URLS from "../constants";
 import Form from "../components/General Components/Form";
+import Loader from "../components/General Components/Loader";
 
-const Auth = ({ user, setAuth, isLoading, isAuth }) => {
+const Auth = ({ user, setAuth, isAuth }) => {
   // ------------------------Declaration ----------------：
 
   const [isSignin, setSignin] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const linkSignin = {
     message: "Don't have an account?",
     color: "text-blue-500",
@@ -120,6 +122,7 @@ const Auth = ({ user, setAuth, isLoading, isAuth }) => {
   // ------------------------Functions ---------------------------
   const auth = async (data) => {
     try {
+      setLoading(true);
       const res = await axios.post(
         isSignin ? API_URLS.login : API_URLS.signup,
         data
@@ -130,6 +133,7 @@ const Auth = ({ user, setAuth, isLoading, isAuth }) => {
         setFormMessage(formMessages.add);
         isSignin ? navigate("/dashboard") : navigate("/dashboard/details");
         setAuth(true);
+        setLoading(false)
       }
       console.log(res.status);
     } catch (err) {
@@ -160,6 +164,15 @@ const Auth = ({ user, setAuth, isLoading, isAuth }) => {
       await auth(signupData);
     }
   };
+  if (isLoading) {
+    return (
+      <>
+        <div className="h-screen absolute top-0 left-0 w-full flex items-center justify-center bg-white">
+          <Loader />
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
