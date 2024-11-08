@@ -40,3 +40,5 @@ const Input = ({ label, type, placeholder, value, name, change, readonly }) => {
 };
 
 export default Input;
+
+
