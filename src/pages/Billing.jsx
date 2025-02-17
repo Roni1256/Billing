@@ -9,7 +9,7 @@ import { BsArrowClockwise, BsSave, BsTrash } from "react-icons/bs";
 import { useInvoiceNumber } from "../hooks/useInvoiceNumber";
 import Invoice from "../components/Billing/Invoice";
 import { CgSwap } from "react-icons/cg";
-import generatePDF from 'react-to-pdf'
+import generatePDF, { Margin, Resolution } from 'react-to-pdf'
 
 const Billing = ({ data, isLoading, updates }) => {
   const targetRef=useRef()
@@ -58,7 +58,25 @@ const Billing = ({ data, isLoading, updates }) => {
     setFormMessage(formMessages.initial);
     setCustomerData({ ...customerData, [e.target.name]: e.target.value });
   };
-
+  const pdfOptions={
+    method:'open',
+    resolution:Resolution.HIGH,
+    page:{
+      margin:Margin.SMALL,
+      format:'letter'
+    },
+    canvas:{
+      mimeType:'image/png',
+      qualityRatio:1,
+      useCORS:true
+    },
+    overrides:{
+      pdf:{
+        compress:true
+      }
+    },
+    filename:'bill.pdf'
+  }
   const submitForm = async (e) => {
     e.preventDefault();
     if (customerData.products.length === 0) {
@@ -82,7 +100,7 @@ const Billing = ({ data, isLoading, updates }) => {
       setShowForm(true);
       return;
     }
-    generatePDF(targetRef,{filename:'bill.pdf'})
+    generatePDF(targetRef,pdfOptions)
     await axios
       .post(API_URLS.addcustomer + data._id, customerData)
       .then((res) => {
@@ -241,7 +259,7 @@ const Billing = ({ data, isLoading, updates }) => {
         />
       </div>
       <div className="w-full py-5  flex flex-col xl:flex-row gap-5 ">
-        <div className="w-full flex flex-col gap-10 max-w-[700px] relative" ref={targetRef}>
+        <div className="w-full flex flex-col gap-10 max-w-[700px] relative" >
           {isInvoice && showForm && (
             <Form
               formTitle={"Customer Details"}
@@ -278,7 +296,7 @@ const Billing = ({ data, isLoading, updates }) => {
         </div>
 
         <div className="w-full flex flex-col items-center justify-center ">
-          <div className=" max-h-[600px] overflow-auto">
+          <div className=" max-h-[600px] overflow-auto" ref={targetRef}>
             {isInvoice ? (
               <Invoice
                 data={customerData}
