@@ -1,5 +1,5 @@
 
-const BASE_URL ="https://billing-backend-ebon.vercel.app";
+const BASE_URL ="https://billing-backend-ebon.vercel.app"
 const API_URLS={
     presentuser: `${BASE_URL}/user/present/`,
     signup: `${BASE_URL}/user/signup/`,
