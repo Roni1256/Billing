@@ -29,6 +29,7 @@ const Bill = ({
     pincode: "xxxxxx",
   },
   data = {},
+  reference
 }) => {
   const [dates, time] = useTimeData();
   const [total, setTotal] = useState(0);
@@ -58,7 +59,7 @@ const Bill = ({
       return null;
 
     return (
-      <div className="text-left">
+      <div className="text-left" ref={reference}>
         <h4 className="text-sm sm:text-md font-semibold mt-2 sm:mt-3">
           Customer Information
         </h4>

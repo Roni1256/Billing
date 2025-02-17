@@ -59,7 +59,7 @@ const Billing = ({ data, isLoading, updates }) => {
     setCustomerData({ ...customerData, [e.target.name]: e.target.value });
   };
   const pdfOptions={
-    method:'open',
+    method:'save',
     resolution:Resolution.HIGH,
     page:{
       margin:Margin.SMALL,
@@ -296,13 +296,14 @@ const Billing = ({ data, isLoading, updates }) => {
         </div>
 
         <div className="w-full flex flex-col items-center justify-center ">
-          <div className=" max-h-[600px] overflow-auto" ref={targetRef}>
+          <div className=" max-h-[600px] overflow-auto" >
             {isInvoice ? (
               <Invoice
                 data={customerData}
                 products={productData}
                 companyData={data}
                 invoiceno={customerData.invoice_number}
+                reference={targetRef}
               />
             ) : (
               <Bill
@@ -310,6 +311,7 @@ const Billing = ({ data, isLoading, updates }) => {
                 billno={customerData.invoice_number}
                 billData={customerData}
                 data={data}
+                reference={targetRef}
               />
             )}
           </div>

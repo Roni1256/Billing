@@ -36,6 +36,7 @@ const Invoice = ({
   },
   invoiceno = useInvoiceNumber(),
   products = [],
+  reference
 }) => {
   console.log(products);
 
@@ -46,7 +47,7 @@ const Invoice = ({
   const [dates, time] = useTimeData();
 
   return (
-    <div className="bg-white border rounded shadow text-slate-800 lg:max-w-[500px] overflow-x-auto">
+    <div className="bg-white border rounded shadow text-slate-800 lg:max-w-[500px] overflow-x-auto" ref={reference}>
       <header className={styles.header}>
         <h1 className={styles.headtext}>{companyData?.company_name}</h1>
       </header>
