@@ -1,7 +1,6 @@
 import React from "react";
 import { useTimeData } from "../../hooks/useTimeData";
 import { useInvoiceNumber } from "../../hooks/useInvoiceNumber";
-
 const styles = {
   header:
     "bg-gray-800 border-b p-2 md:p-4 flex flex-col md:flex-row items-center justify-between",
@@ -36,7 +35,7 @@ const Invoice = ({
   },
   invoiceno = useInvoiceNumber(),
   products = [],
-  reference
+  
 }) => {
   console.log(products);
 
@@ -47,7 +46,7 @@ const Invoice = ({
   const [dates, time] = useTimeData();
 
   return (
-    <div className="bg-white border rounded shadow text-slate-800 lg:max-w-[500px] overflow-x-auto" ref={reference}>
+    <div className="bg-white border rounded shadow text-slate-800 lg:max-w-[500px] overflow-x-auto" >
       <header className={styles.header}>
         <h1 className={styles.headtext}>{companyData?.company_name}</h1>
       </header>

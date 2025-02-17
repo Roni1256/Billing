@@ -296,14 +296,14 @@ const Billing = ({ data, isLoading, updates }) => {
         </div>
 
         <div className="w-full flex flex-col items-center justify-center ">
-          <div className=" max-h-[600px] overflow-auto" >
+          <div className=" max-h-[600px] overflow-auto" ref={targetRef}>
             {isInvoice ? (
               <Invoice
                 data={customerData}
                 products={productData}
                 companyData={data}
                 invoiceno={customerData.invoice_number}
-                reference={targetRef}
+                
               />
             ) : (
               <Bill
@@ -311,7 +311,6 @@ const Billing = ({ data, isLoading, updates }) => {
                 billno={customerData.invoice_number}
                 billData={customerData}
                 data={data}
-                reference={targetRef}
               />
             )}
           </div>
