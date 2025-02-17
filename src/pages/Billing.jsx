@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, {  useRef, useState } from "react";
 import Table from "../components/General Components/Table";
 import Form from "../components/General Components/Form";
 import Button from "../components/General Components/Button";
@@ -9,8 +9,10 @@ import { BsArrowClockwise, BsSave, BsTrash } from "react-icons/bs";
 import { useInvoiceNumber } from "../hooks/useInvoiceNumber";
 import Invoice from "../components/Billing/Invoice";
 import { CgSwap } from "react-icons/cg";
+import generatePDF from 'react-to-pdf'
 
 const Billing = ({ data, isLoading, updates }) => {
+  const targetRef=useRef()
   const [isDelete, setIsDelete] = useState(false);
   const [isInvoice, setToggleInvoice] = useState(
     data.invoicetype === "invoice" ? true : false
@@ -63,14 +65,11 @@ const Billing = ({ data, isLoading, updates }) => {
       setFormMessage(formMessages.emptyField);
       return;
     }
-    console.log(customerData);
-
     if (customerData.email === "") {
       setFormMessage(formMessages.emptyField);
       setShowForm(true);
       return;
     }
-
     if (
       isInvoice &&
       (customerData.name === "" ||
@@ -81,9 +80,9 @@ const Billing = ({ data, isLoading, updates }) => {
     ) {
       setFormMessage(formMessages.emptyField);
       setShowForm(true);
-
       return;
     }
+    generatePDF(targetRef,{filename:'bill.pdf'})
     await axios
       .post(API_URLS.addcustomer + data._id, customerData)
       .then((res) => {
@@ -242,7 +241,7 @@ const Billing = ({ data, isLoading, updates }) => {
         />
       </div>
       <div className="w-full py-5  flex flex-col xl:flex-row gap-5 ">
-        <div className="w-full flex flex-col gap-10 max-w-[700px] relative">
+        <div className="w-full flex flex-col gap-10 max-w-[700px] relative" ref={targetRef}>
           {isInvoice && showForm && (
             <Form
               formTitle={"Customer Details"}
